@@ -11,15 +11,40 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
+using FIVES;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NGSIv2
+namespace NGSIv2Plugin
 {
-    public class NGSIv2PluginInitializer
+    public class NGSIv2PluginInitializer : IPluginInitializer
     {
+        public List<string> ComponentDependencies
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void Initialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Name
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public List<string> PluginDependencies
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void Shutdown()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
