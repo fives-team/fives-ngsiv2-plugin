@@ -31,6 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DomainModel">
+      <HintPath>lib\DomainModel.dll</HintPath>
+    </Reference>
+    <Reference Include="PluginManager">
+      <HintPath>lib\PluginManager.dll</HintPath>
+    </Reference>
+    <Reference Include="RESTService">
+      <HintPath>lib\RESTService.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
