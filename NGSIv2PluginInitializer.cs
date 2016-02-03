@@ -24,27 +24,27 @@ namespace NGSIv2Plugin
     {
         public List<string> ComponentDependencies
         {
-            get { throw new NotImplementedException(); }
+            get { return new List<string>(); }
         }
 
         public void Initialize()
         {
-            throw new NotImplementedException();
+            RESTServicePlugin.RequestDispatcher.Instance.RegisterHandler(new NGSIv2RequestHandler());
         }
 
         public string Name
         {
-            get { throw new NotImplementedException(); }
+            get { return "NGSIv2"; }
         }
 
         public List<string> PluginDependencies
         {
-            get { throw new NotImplementedException(); }
+            get { return new List<string> { "RESTService" }; }
         }
 
         public void Shutdown()
         {
-            throw new NotImplementedException();
+
         }
     }
 }
