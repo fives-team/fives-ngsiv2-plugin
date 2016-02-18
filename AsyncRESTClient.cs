@@ -19,11 +19,18 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using RestSharp;
 
 namespace NGSIv2Plugin
 {
     public class AsyncRESTClient
     {
+
+        /*Docs http://restsharp.org/ ,http://stackoverflow.com/questions/10226089/restsharp-simple-complete-example, http://pawel.sawicz.eu/async-and-restsharp/, 
+         http://stackoverflow.com/questions/31526400/restsharp-send-dictionary
+         
+         */
+
         /// <summary>
         /// Performs an (asynchronous) REST request to an HTTP resource and returns the result as type that
         /// was specified as Template Parameter
@@ -31,17 +38,37 @@ namespace NGSIv2Plugin
         /// <typeparam name="T">The type to which the request result should be casted</typeparam>
         /// <param name="uri">Location of the resource that should be requested</param>
         /// <returns>Object of specified parameter type when async task has finished</returns>
-        public async Task<T> Get<T>(string uri)
+        public T Get<T>(string uri, string content) where T : class, new()
         {
-            HttpResponseMessage response = await httpClient.GetAsync(uri);
-            string responseText = await response.Content.ReadAsStringAsync();
-            var responseObject = serializer.Deserialize<T>(responseText);
+            client = new RestClient(uri);
+            T responseObject=null;
+            var request = new RestRequest(content,Method.GET);
+            client.ExecuteAsync<T>(request, response =>
+            {
+                if (response.ResponseStatus == ResponseStatus.Completed)
+                {
+                    responseObject = response.Data;
+                }
+               
+            });
             return responseObject;
         }
 
-        public async Task Post(string uri, object content)
+        public T Post<T>(string uri, Dictionary<string, string> content) where T : class, new()
         {
-            throw new NotImplementedException();
+            T responseObject = null;
+            var client = new RestClient(uri);
+            var request = new RestRequest(Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(content);                   
+            var asyncHandle = client.ExecuteAsync<T>(request, response =>
+            {
+                if (response.ResponseStatus == ResponseStatus.Completed)
+                {
+                    responseObject = response.Data;
+                }
+            });
+            return responseObject;
         }
 
         public async Task Put(string uri, object content)
@@ -59,7 +86,6 @@ namespace NGSIv2Plugin
             throw new NotImplementedException();
         }
 
-        private HttpClient httpClient = new HttpClient();
-        private JavaScriptSerializer serializer = new JavaScriptSerializer();
+        private RestClient client;        
     }
 }
