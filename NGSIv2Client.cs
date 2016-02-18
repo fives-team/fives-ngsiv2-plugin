@@ -23,13 +23,12 @@ namespace NGSIv2Plugin
 {
     class NGSIv2Client
     {
-        public void RetrieveEntryPoint() {}
-        
-        public void ListAllEntities(Delegate callback) {            
-            var request = client.GetAsync("Asasas");
-            // request.ContinueWith(t => { serializer.Deserialize(t.Result.Content.ReadAsStringAsync});
+        public void RetrieveEntryPoint()
+        {
+
         }
 
+        public void ListAllEntities() {}
         public void ListAllEntities(int limit, int offset, string options, Delegate callback){}
         public void FilterEntitiesById(string id, Delegate callback){}
         public void FilterEntitiesById(ISet<string> ids, Delegate callback){}
