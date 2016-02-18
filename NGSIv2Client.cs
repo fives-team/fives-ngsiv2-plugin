@@ -21,7 +21,7 @@ using System.Web.Script.Serialization;
 
 namespace NGSIv2Plugin
 {
-    class RequestBuilder
+    class NGSIv2Client
     {
         public void RetrieveEntryPoint() {}
         

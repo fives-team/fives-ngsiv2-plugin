@@ -61,7 +61,7 @@
     <Compile Include="NGSIv2RequestHandler.cs" />
     <Compile Include="NUnitTests\NGSIv2Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestBuilder.cs" />
+    <Compile Include="NGSIv2Client.cs" />
     <Compile Include="AsyncRESTClient.cs" />
   </ItemGroup>
   <ItemGroup>
