@@ -24,6 +24,16 @@ namespace NGSIv2Plugin.NUnitTests
     class NGSIv2Tests
     {
         private AsyncRESTClient dispatcher = new AsyncRESTClient();
+        private NGSIv2Client ngsiClient = new NGSIv2Client();
+
+        private const string globalContextBrokerURI = "http://130.206.117.75:1026/v2/";
+
+        [Test()]
+        public async Task ShouldRetrieveEntryPoint()
+        {
+            var entryPoint = await ngsiClient.RetrieveEntryPoint(globalContextBrokerURI);
+            Assert.NotNull(entryPoint);
+        }
 
         [Test()]
         public async Task ShouldRetrieveAllEntities()
