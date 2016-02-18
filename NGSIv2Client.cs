@@ -11,21 +11,23 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
+using NGSIv2Plugin.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
 namespace NGSIv2Plugin
 {
     class NGSIv2Client
     {
-        public void RetrieveEntryPoint()
+        public Task<EntryPoint> RetrieveEntryPoint(string uri)
         {
-
+            return client.Get<EntryPoint>(uri);
         }
 
         public void ListAllEntities() {}
@@ -35,7 +37,7 @@ namespace NGSIv2Plugin
         public void FilterEntitiesByType(string type, Delegate callback){}
         public void FilterEntitiesByType(ISet<string> types, Delegate callback){}
 
-        HttpClient client = new HttpClient();
+        AsyncRESTClient client = new AsyncRESTClient();
         JavaScriptSerializer serializer = new JavaScriptSerializer();
     }
 }
