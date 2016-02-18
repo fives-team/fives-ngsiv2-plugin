@@ -24,7 +24,7 @@ namespace NGSIv2Plugin.NUnitTests
     [TestFixture()]
     class NGSIv2Tests
     {
-        private RequestDispatcher dispatcher = new RequestDispatcher();
+        private AsyncRESTClient dispatcher = new AsyncRESTClient();
 
         [Test()]
         public async Task ShouldRetrieveAllEntities()

@@ -62,7 +62,7 @@
     <Compile Include="NUnitTests\NGSIv2Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestBuilder.cs" />
-    <Compile Include="RequestDispatcher.cs" />
+    <Compile Include="AsyncRESTClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="NGSIv2.licenseheader" />

@@ -22,14 +22,41 @@ using System.Web.Script.Serialization;
 
 namespace NGSIv2Plugin
 {
-    public class RequestDispatcher
+    public class AsyncRESTClient
     {
+        /// <summary>
+        /// Performs an (asynchronous) REST request to an HTTP resource and returns the result as type that
+        /// was specified as Template Parameter
+        /// </summary>
+        /// <typeparam name="T">The type to which the request result should be casted</typeparam>
+        /// <param name="uri">Location of the resource that should be requested</param>
+        /// <returns>Object of specified parameter type when async task has finished</returns>
         public async Task<T> Get<T>(string uri)
         {
             HttpResponseMessage response = await httpClient.GetAsync(uri);
             string responseText = await response.Content.ReadAsStringAsync();
             var responseObject = serializer.Deserialize<T>(responseText);
             return responseObject;
+        }
+
+        public async Task Post(string uri, object content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task Put(string uri, object content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task Patch(string uri, object content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task Delete(string uri)
+        {
+            throw new NotImplementedException();
         }
 
         private HttpClient httpClient = new HttpClient();
