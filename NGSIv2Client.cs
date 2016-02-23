@@ -27,12 +27,21 @@ namespace NGSIv2Plugin
     class NGSIv2Client
     {
         public RestClient Client { get; private set; }
-        public Task<EntryPoint> RetrieveEntryPoint(string uri)
+        internal EntryPoint EntryPoints { get; set; }
 
         public NGSIv2Client(string baseUrl)
         {
             Client = new RestClient();
             Client.BaseUrl = new Uri(baseUrl);
+            RetrieveEntryPoints();
+        }
+
+        private void RetrieveEntryPoints()
+        {
+            RestRequest request = new RestRequest();
+            request.Resource = "/v2";
+            var response = Client.Execute<EntryPoint>(request);
+            EntryPoints = response.Data;
         }
         {
             return client.Get<EntryPoint>(uri);
