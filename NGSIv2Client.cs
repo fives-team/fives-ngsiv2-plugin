@@ -43,12 +43,28 @@ namespace NGSIv2Plugin
             var response = Client.Execute<EntryPoint>(request);
             EntryPoints = response.Data;
         }
+        public void ListAllEntities(Action<List<Dictionary<string, object>>> callback)
         {
-            return client.Get<EntryPoint>(uri);
+            RestRequest request = new RestRequest();
+            request.Resource = EntryPoints.Entities;
+            Client.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
+            {
+                callback(response.Data);
+            });
         }
 
-        public void ListAllEntities() {}
-        public void ListAllEntities(int limit, int offset, string options, Delegate callback){}
+        public void ListAllEntities(int offset, int limit, string options, Action<List<Dictionary<string, object>>> callback)
+        {
+            RestRequest request = new RestRequest(EntryPoints.Entities);
+            request.AddParameter("offset", offset);
+            request.AddParameter("limit", limit);
+            request.AddParameter("options", options);
+            Client.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
+            {
+                callback(response.Data);
+            });
+        }
+
         public void FilterEntitiesById(string id, Delegate callback){}
         public void FilterEntitiesById(ISet<string> ids, Delegate callback){}
         public void FilterEntitiesByType(string type, Delegate callback){}
