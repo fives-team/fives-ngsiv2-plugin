@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NGSIv2Plugin.NUnitTests
@@ -23,23 +24,31 @@ namespace NGSIv2Plugin.NUnitTests
     [TestFixture()]
     class NGSIv2Tests
     {
-        private AsyncRESTClient dispatcher = new AsyncRESTClient();
-        private NGSIv2Client ngsiClient = new NGSIv2Client();
+        private NGSIv2Client ngsiClient = new NGSIv2Client(globalContextBrokerURI);
 
-        private const string globalContextBrokerURI = "http://130.206.117.75:1026/v2/";
+        private const string globalContextBrokerURI = "http://130.206.117.75:1026";
 
         [Test()]
-        public async Task ShouldRetrieveEntryPoint()
+        public void ShouldRetrieveEntryPoints()
         {
-            var entryPoint = await ngsiClient.RetrieveEntryPoint(globalContextBrokerURI);
-            Assert.NotNull(entryPoint);
+            var tempClient = new NGSIv2Client(globalContextBrokerURI);
+            Assert.NotNull(tempClient.EntryPoints.Entities);
+            Assert.NotNull(tempClient.EntryPoints.Types);
+            Assert.NotNull(tempClient.EntryPoints.Subscriptions);
+            Assert.NotNull(tempClient.EntryPoints.Registrations);
         }
 
         [Test()]
-        public async Task ShouldRetrieveAllEntities()
+        public void ShouldRetrieveAllEntities()
         {
-            var entities = await dispatcher.Get<Dictionary<string,object>[]>("http://130.206.117.75:1026/v2/entities");
-            Assert.NotNull(entities);
+            var autoEvent = new AutoResetEvent(false);
+            List<Dictionary<string, object>> entities = new List<Dictionary<string,object>>();
+            ngsiClient.ListAllEntities(r => {
+                entities = r;
+                autoEvent.Set();
+            });
+            autoEvent.WaitOne();
+            Assert.Greater(entities.Count, 0);
         }
     }
 }
