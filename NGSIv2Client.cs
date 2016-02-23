@@ -12,6 +12,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
 using NGSIv2Plugin.Messages;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,14 @@ namespace NGSIv2Plugin
 {
     class NGSIv2Client
     {
+        public RestClient Client { get; private set; }
         public Task<EntryPoint> RetrieveEntryPoint(string uri)
+
+        public NGSIv2Client(string baseUrl)
+        {
+            Client = new RestClient();
+            Client.BaseUrl = new Uri(baseUrl);
+        }
         {
             return client.Get<EntryPoint>(uri);
         }
