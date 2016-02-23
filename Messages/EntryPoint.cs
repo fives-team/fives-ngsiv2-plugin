@@ -11,6 +11,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
+using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,18 @@ using System.Threading.Tasks;
 
 namespace NGSIv2Plugin.Messages
 {
-    public struct EntryPoint
+    public class EntryPoint
     {
-        public string entities_url;
-        public string types_url;
-        public string subscriptions_url;
-        public string registrations_url;
+        [DeserializeAs(Name = "entities_url")]
+        public string Entities { get; set; }
+
+        [DeserializeAs(Name = "types_url")]
+        public string Types { get; set; }
+
+        [DeserializeAs(Name = "subscriptions_url")]
+        public string Subscriptions { get; set; }
+
+        [DeserializeAs(Name = "registrations_url")]
+        public string Registrations { get; set; }
     }
 }
