@@ -43,6 +43,7 @@ namespace NGSIv2Plugin
             var response = Client.Execute<EntryPoint>(request);
             EntryPoints = response.Data;
         }
+
         public void ListAllEntities(Action<List<Dictionary<string, object>>> callback)
         {
             RestRequest request = new RestRequest();
@@ -69,8 +70,5 @@ namespace NGSIv2Plugin
         public void FilterEntitiesById(ISet<string> ids, Delegate callback){}
         public void FilterEntitiesByType(string type, Delegate callback){}
         public void FilterEntitiesByType(ISet<string> types, Delegate callback){}
-
-        AsyncRESTClient client = new AsyncRESTClient();
-        JavaScriptSerializer serializer = new JavaScriptSerializer();
     }
 }
