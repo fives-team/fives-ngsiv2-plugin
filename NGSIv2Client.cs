@@ -70,9 +70,27 @@ namespace NGSIv2Plugin
             });
         }
 
-        public void FilterEntitiesById(string id, Delegate callback){}
-        public void FilterEntitiesById(ISet<string> ids, Delegate callback){}
         public void FilterEntitiesByType(string type, Delegate callback){}
         public void FilterEntitiesByType(ISet<string> types, Delegate callback){}
+        public void FilterEntitiesById(string id, Action<List<Dictionary<string, object>>> callback, string options = null)
+        {
+            RestRequest request = new RestRequest(EntryPoints.Entities);
+            request.AddParameter("id", id);
+            if(options != null)
+            {
+                request.AddParameter("options", options);
+            }
+
+            Client.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
+                {
+                    callback(response.Data);
+                });
+        }
+
+        public void FilterEntitiesById(ISet<string> ids, Action<List<Dictionary<string, object>>> callback, string options = null)
+        {
+            FilterEntitiesById(string.Join(",", ids), callback, options);
+        }
+
     }
 }
