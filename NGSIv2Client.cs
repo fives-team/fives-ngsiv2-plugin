@@ -70,8 +70,6 @@ namespace NGSIv2Plugin
             });
         }
 
-        public void FilterEntitiesByType(string type, Delegate callback){}
-        public void FilterEntitiesByType(ISet<string> types, Delegate callback){}
         public void FilterEntitiesById(string id, Action<List<Dictionary<string, object>>> callback, string options = null)
         {
             RestRequest request = new RestRequest(EntryPoints.Entities);
@@ -92,5 +90,23 @@ namespace NGSIv2Plugin
             FilterEntitiesById(string.Join(",", ids), callback, options);
         }
 
+        public void FilterEntitiesByType(string type, Action<List<Dictionary<string, object>>> callback, string options = null)
+        {
+            RestRequest request = new RestRequest(EntryPoints.Entities);
+            request.AddParameter("type", type);
+            if (options != null)
+            {
+                request.AddParameter("options", options);
+            }
+
+            Client.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
+            {
+                callback(response.Data);
+            });
+        }
+        public void FilterEntitiesByType(ISet<string> types, Action<List<Dictionary<string, object>>> callback, string options = null)
+        {
+            FilterEntitiesByType(string.Join(",", types), callback, options);
+        }
     }
 }
