@@ -104,9 +104,24 @@ namespace NGSIv2Plugin
                 callback(response.Data);
             });
         }
+
         public void FilterEntitiesByType(ISet<string> types, Action<List<Dictionary<string, object>>> callback, string options = null)
         {
             FilterEntitiesByType(string.Join(",", types), callback, options);
         }
+
+        private void SendRequest(Dictionary<string, object> parameters, Action<List<Dictionary<string, object>>> callback)
+        {
+            RestRequest request = new RestRequest(EntryPoints.Entities);
+            foreach (KeyValuePair<string, object> parameter in parameters)
+            {
+                request.AddParameter(parameter.Key, parameter.Value);
+            }
+            Client.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
+            {
+                callback(response.Data);
+            });
+        }
+
     }
 }
