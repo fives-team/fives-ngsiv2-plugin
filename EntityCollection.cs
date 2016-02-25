@@ -11,6 +11,7 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
+using NGSIv2Plugin.Messages;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -31,12 +32,12 @@ namespace NGSIv2Plugin
             EntitiesResource = resource;
         }
 
-        public void ListAllEntities(Action<List<Dictionary<string, object>>> callback)
+        public void ListAllEntities(Action<RequestResponse> callback)
         {
             SendRequest(new RestRequest(EntitiesResource), callback);
         }
 
-        public void ListAllEntities(int offset, int limit, Action<List<Dictionary<string, object>>> callback, string options = null)
+        public void ListAllEntities(int offset, int limit, Action<RequestResponse> callback, string options = null)
         {
             RestRequest request = new RestRequest(EntitiesResource);
             request.AddParameter("offset", offset);
@@ -46,7 +47,7 @@ namespace NGSIv2Plugin
             SendRequest(request, callback);
         }
 
-        public void FilterEntitiesById(string id, Action<List<Dictionary<string, object>>> callback, string options = null)
+        public void FilterEntitiesById(string id, Action<RequestResponse> callback, string options = null)
         {
             RestRequest request = new RestRequest(EntitiesResource);
             request.AddParameter("id", id);
@@ -55,12 +56,12 @@ namespace NGSIv2Plugin
             SendRequest(request, callback);
         }
 
-        public void FilterEntitiesById(ISet<string> ids, Action<List<Dictionary<string, object>>> callback, string options = null)
+        public void FilterEntitiesById(ISet<string> ids, Action<RequestResponse> callback, string options = null)
         {
             FilterEntitiesById(string.Join(",", ids), callback, options);
         }
 
-        public void FilterEntitiesByType(string type, Action<List<Dictionary<string, object>>> callback, string options = null)
+        public void FilterEntitiesByType(string type, Action<RequestResponse> callback, string options = null)
         {
             RestRequest request = new RestRequest(EntitiesResource);
             request.AddParameter("type", type);
@@ -69,16 +70,16 @@ namespace NGSIv2Plugin
             SendRequest(request, callback);
         }
 
-        public void FilterEntitiesByType(ISet<string> types, Action<List<Dictionary<string, object>>> callback, string options = null)
+        public void FilterEntitiesByType(ISet<string> types, Action<RequestResponse> callback, string options = null)
         {
             FilterEntitiesByType(string.Join(",", types), callback, options);
         }
 
-        private void SendRequest(RestRequest request, Action<List<Dictionary<string, object>>> callback)
+        private void SendRequest(RestRequest request, Action<RequestResponse> callback)
         {
             Client.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
             {
-                callback(response.Data);
+                callback(new RequestResponse(response.StatusCode, response.Data));
             });
         }
     }

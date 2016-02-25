@@ -1,4 +1,5 @@
-﻿// This file is part of FiVES.
+﻿using NGSIv2Plugin.Messages;
+// This file is part of FiVES.
 //
 // FiVES is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -15,6 +16,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,11 +45,14 @@ namespace NGSIv2Plugin.NUnitTests
         {
             var autoEvent = new AutoResetEvent(false);
             List<Dictionary<string, object>> entities = new List<Dictionary<string,object>>();
+            RequestResponse response = new RequestResponse();
             ngsiClient.EntityCollection.ListAllEntities(r => {
-                entities = r;
+                response = r;
+                entities = r.ResponseData as List<Dictionary<string, object>>;
                 autoEvent.Set();
             });
             autoEvent.WaitOne();
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.Greater(entities.Count, 0);
         }
     }
