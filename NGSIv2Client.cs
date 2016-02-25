@@ -42,18 +42,17 @@ namespace NGSIv2Plugin
 
         public void ListAllEntities(Action<List<Dictionary<string, object>>> callback)
         {
-            SendRequest(new Dictionary<string, object>(), callback);
+            SendRequest(new RestRequest(EntryPoints.Entities), callback);
         }
 
         public void ListAllEntities(int offset, int limit, Action<List<Dictionary<string, object>>> callback, string options = null)
         {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("offset", offset);
-            parameters.Add("limit", limit);
+            RestRequest request = new RestRequest(EntryPoints.Entities);
+            request.AddParameter("offset", offset);
+            request.AddParameter("limit", limit);
             if (options != null)
-                parameters.Add("options", options);
-
-            SendRequest(parameters, callback);
+                request.AddParameter("options", options);
+            SendRequest(request, callback);
         }
 
         public void FilterEntitiesById(string id, Action<List<Dictionary<string, object>>> callback, string options = null)
@@ -61,14 +60,8 @@ namespace NGSIv2Plugin
             RestRequest request = new RestRequest(EntryPoints.Entities);
             request.AddParameter("id", id);
             if(options != null)
-            {
                 request.AddParameter("options", options);
-            }
-
-            Client.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
-                {
-                    callback(response.Data);
-                });
+            SendRequest(request, callback);
         }
 
         public void FilterEntitiesById(ISet<string> ids, Action<List<Dictionary<string, object>>> callback, string options = null)
@@ -81,14 +74,8 @@ namespace NGSIv2Plugin
             RestRequest request = new RestRequest(EntryPoints.Entities);
             request.AddParameter("type", type);
             if (options != null)
-            {
                 request.AddParameter("options", options);
-            }
-
-            Client.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
-            {
-                callback(response.Data);
-            });
+            SendRequest(request, callback);
         }
 
         public void FilterEntitiesByType(ISet<string> types, Action<List<Dictionary<string, object>>> callback, string options = null)
@@ -96,13 +83,8 @@ namespace NGSIv2Plugin
             FilterEntitiesByType(string.Join(",", types), callback, options);
         }
 
-        private void SendRequest(Dictionary<string, object> parameters, Action<List<Dictionary<string, object>>> callback)
+        private void SendRequest(RestRequest request, Action<List<Dictionary<string, object>>> callback)
         {
-            RestRequest request = new RestRequest(EntryPoints.Entities);
-            foreach (KeyValuePair<string, object> parameter in parameters)
-            {
-                request.AddParameter(parameter.Key, parameter.Value);
-            }
             Client.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
             {
                 callback(response.Data);
