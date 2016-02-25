@@ -23,6 +23,7 @@ namespace NGSIv2Plugin
     class NGSIv2Client
     {
         public RestClient Client { get; private set; }
+        public EntityCollection EntityCollection { get; private set; }
         internal EntryPoint EntryPoints { get; set; }
 
         public NGSIv2Client(string baseUrl)
@@ -38,58 +39,7 @@ namespace NGSIv2Plugin
             request.Resource = "/v2";
             var response = Client.Execute<EntryPoint>(request);
             EntryPoints = response.Data;
+            EntityCollection = new EntityCollection(Client, EntryPoints.Entities);
         }
-
-        public void ListAllEntities(Action<List<Dictionary<string, object>>> callback)
-        {
-            SendRequest(new RestRequest(EntryPoints.Entities), callback);
-        }
-
-        public void ListAllEntities(int offset, int limit, Action<List<Dictionary<string, object>>> callback, string options = null)
-        {
-            RestRequest request = new RestRequest(EntryPoints.Entities);
-            request.AddParameter("offset", offset);
-            request.AddParameter("limit", limit);
-            if (options != null)
-                request.AddParameter("options", options);
-            SendRequest(request, callback);
-        }
-
-        public void FilterEntitiesById(string id, Action<List<Dictionary<string, object>>> callback, string options = null)
-        {
-            RestRequest request = new RestRequest(EntryPoints.Entities);
-            request.AddParameter("id", id);
-            if(options != null)
-                request.AddParameter("options", options);
-            SendRequest(request, callback);
-        }
-
-        public void FilterEntitiesById(ISet<string> ids, Action<List<Dictionary<string, object>>> callback, string options = null)
-        {
-            FilterEntitiesById(string.Join(",", ids), callback, options);
-        }
-
-        public void FilterEntitiesByType(string type, Action<List<Dictionary<string, object>>> callback, string options = null)
-        {
-            RestRequest request = new RestRequest(EntryPoints.Entities);
-            request.AddParameter("type", type);
-            if (options != null)
-                request.AddParameter("options", options);
-            SendRequest(request, callback);
-        }
-
-        public void FilterEntitiesByType(ISet<string> types, Action<List<Dictionary<string, object>>> callback, string options = null)
-        {
-            FilterEntitiesByType(string.Join(",", types), callback, options);
-        }
-
-        private void SendRequest(RestRequest request, Action<List<Dictionary<string, object>>> callback)
-        {
-            Client.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
-            {
-                callback(response.Data);
-            });
-        }
-
     }
 }

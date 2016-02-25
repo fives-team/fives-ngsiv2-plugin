@@ -43,7 +43,7 @@ namespace NGSIv2Plugin.NUnitTests
         {
             var autoEvent = new AutoResetEvent(false);
             List<Dictionary<string, object>> entities = new List<Dictionary<string,object>>();
-            ngsiClient.ListAllEntities(r => {
+            ngsiClient.EntityCollection.ListAllEntities(r => {
                 entities = r;
                 autoEvent.Set();
             });
