@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="EntityCollection.cs" />
     <Compile Include="Messages\EntryPoint.cs" />
+    <Compile Include="Messages\RequestResponse.cs" />
     <Compile Include="NGSIv2PluginInitializer.cs" />
     <Compile Include="NGSIv2RequestHandler.cs" />
     <Compile Include="NUnitTests\NGSIv2Tests.cs" />
