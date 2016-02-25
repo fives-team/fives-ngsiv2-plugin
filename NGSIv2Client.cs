@@ -22,12 +22,15 @@ namespace NGSIv2Plugin
 {
     class NGSIv2Client
     {
+        public bool Initialized { get; private set; }
         public RestClient Client { get; private set; }
         public EntityCollection EntityCollection { get; private set; }
+
         internal EntryPoint EntryPoints { get; set; }
 
         public NGSIv2Client(string baseUrl)
         {
+            Initialized = false;
             Client = new RestClient();
             Client.BaseUrl = new Uri(baseUrl);
             RetrieveEntryPoints();
@@ -40,6 +43,7 @@ namespace NGSIv2Plugin
             var response = Client.Execute<EntryPoint>(request);
             EntryPoints = response.Data;
             EntityCollection = new EntityCollection(Client, EntryPoints.Entities);
+            Initialized = true;
         }
     }
 }
