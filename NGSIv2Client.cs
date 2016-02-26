@@ -43,8 +43,16 @@ namespace NGSIv2Plugin
             request.Resource = "/v2";
             var response = RestClient.Execute<EntryPoint>(request);
             EntryPoints = response.Data;
-            EntityCollection = new EntityCollection(Client, EntryPoints.Entities);
+            EntityCollection = new EntityCollection(this, EntryPoints.Entities);
             Initialized = true;
+        }
+
+        public void SendRequest(RestRequest request, Action<RequestResponse> callback)
+        {
+            RestClient.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
+            {
+                callback(new RequestResponse(response.StatusCode, response.Data));
+            });
         }
     }
 }
