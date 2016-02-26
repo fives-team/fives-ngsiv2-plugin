@@ -48,11 +48,12 @@ namespace NGSIv2Plugin
             Initialized = true;
         }
 
-        public void SendRequest(RestRequest request, Action<RequestResponse> callback)
+        public void SendRequest<T>(RestRequest request, Action<RequestResponse<T>> callback)
         {
-            RestClient.ExecuteAsync<List<Dictionary<string, object>>>(request, response =>
+            RestClient.ExecuteAsync(request, response =>
             {
-                callback(new RequestResponse(response.StatusCode, response.Data));
+               var data = Serializer.Deserialize(response.Content, typeof(T));
+               callback(new RequestResponse<T>(response.StatusCode, (T)data));
             });
         }
         JavaScriptSerializer Serializer = new JavaScriptSerializer();

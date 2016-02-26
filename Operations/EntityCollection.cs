@@ -45,9 +45,9 @@ namespace NGSIv2Plugin.Operations
         /// Performs an asynchronous query to list the complete set of entities that is provided by the data provider
         /// </summary>
         /// <param name="callback">Function that is called when the asynchronous call returned</param>
-        public void ListAllEntities(Action<RequestResponse> callback)
+        public void ListAllEntities(Action<RequestResponse<EntityList>> callback)
         {
-            Client.SendRequest(new RestRequest(EntitiesResource), callback);
+            Client.SendRequest<EntityList>(new RestRequest(EntitiesResource), callback);
         }
 
         /// <summary>
@@ -57,14 +57,14 @@ namespace NGSIv2Plugin.Operations
         /// <param name="limit">Number of entities to be shown</param>
         /// <param name="callback">Function that is called when the asynchronous call returned</param>
         /// <param name="options">[optional] options with which the request should be performed</param>
-        public void ListAllEntities(int offset, int limit, Action<RequestResponse> callback, string options = null)
+        public void ListAllEntities(int offset, int limit, Action<RequestResponse<EntityList>> callback, string options = null)
         {
             RestRequest request = new RestRequest(EntitiesResource);
             request.AddParameter("offset", offset);
             request.AddParameter("limit", limit);
             if (options != null)
                 request.AddParameter("options", options);
-            Client.SendRequest(request, callback);
+            Client.SendRequest<EntityList>(request, callback);
         }
 
         /// <summary>
@@ -73,13 +73,13 @@ namespace NGSIv2Plugin.Operations
         /// <param name="id">ID by with the set of all entities should be filtered</param>
         /// <param name="callback">Function that is called when the asynchronous call returned</param>
         /// <param name="options">[optional] options with which the request should be performed</param>
-        public void FilterEntitiesById(string id, Action<RequestResponse> callback, string options = null)
+        public void FilterEntitiesById(string id, Action<RequestResponse<EntityList>> callback, string options = null)
         {
             RestRequest request = new RestRequest(EntitiesResource);
             request.AddParameter("id", id);
             if (options != null)
                 request.AddParameter("options", options);
-            Client.SendRequest(request, callback);
+            Client.SendRequest<EntityList>(request, callback);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace NGSIv2Plugin.Operations
         /// <param name="ids">Set of IDs by with the set of all entities should be filtered</param>
         /// <param name="callback">Function that is called when the asynchronous call returned</param>
         /// <param name="options">[optional] options with which the request should be performed</param>
-        public void FilterEntitiesById(ISet<string> ids, Action<RequestResponse> callback, string options = null)
+        public void FilterEntitiesById(ISet<string> ids, Action<RequestResponse<EntityList>> callback, string options = null)
         {
             FilterEntitiesById(string.Join(",", ids), callback, options);
         }
@@ -99,13 +99,13 @@ namespace NGSIv2Plugin.Operations
         /// <param name="type">Type by with the set of all entities should be filtered</param>
         /// <param name="callback">Function that is called when the asynchronous call returned</param>
         /// <param name="options">[optional] options with which the request should be performed</param>
-        public void FilterEntitiesByType(string type, Action<RequestResponse> callback, string options = null)
+        public void FilterEntitiesByType(string type, Action<RequestResponse<EntityList>> callback, string options = null)
         {
             RestRequest request = new RestRequest(EntitiesResource);
             request.AddParameter("type", type);
             if (options != null)
                 request.AddParameter("options", options);
-            Client.SendRequest(request, callback);
+            Client.SendRequest<EntityList>(request, callback);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace NGSIv2Plugin.Operations
         /// <param name="types">Set of tytpes by with the set of all entities should be filtered</param>
         /// <param name="callback">Function that is called when the asynchronous call returned</param>
         /// <param name="options">[optional] options with which the request should be performed</param>
-        public void FilterEntitiesByType(ISet<string> types, Action<RequestResponse> callback, string options = null)
+        public void FilterEntitiesByType(ISet<string> types, Action<RequestResponse<EntityList>> callback, string options = null)
         {
             FilterEntitiesByType(string.Join(",", types), callback, options);
         }

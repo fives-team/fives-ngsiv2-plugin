@@ -44,11 +44,11 @@ namespace NGSIv2Plugin.NUnitTests
         public void ShouldRetrieveAllEntities()
         {
             var autoEvent = new AutoResetEvent(false);
-            List<Dictionary<string, object>> entities = new List<Dictionary<string,object>>();
-            RequestResponse response = new RequestResponse();
+            EntityList entities = new EntityList();
+            RequestResponse<EntityList> response = new RequestResponse<EntityList>();
             ngsiClient.EntityCollection.ListAllEntities(r => {
                 response = r;
-                entities = r.ResponseData as List<Dictionary<string, object>>;
+                entities = r.ResponseData as EntityList;
                 autoEvent.Set();
             });
             autoEvent.WaitOne();
