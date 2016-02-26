@@ -16,17 +16,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NGSIv2Plugin.Messages
 {
-    public class RequestResponse
+    public class RequestResponse<T>
     {
-        public object ResponseData { get; private set; }
+        public T ResponseData { get; private set; }
         public HttpStatusCode StatusCode { get; private set; }
 
         public RequestResponse() { }
-        public RequestResponse(HttpStatusCode code, object data)
+        public RequestResponse(HttpStatusCode code, T data)
         {
             ResponseData = data;
             StatusCode = code;
