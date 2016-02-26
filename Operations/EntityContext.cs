@@ -44,6 +44,12 @@ namespace NGSIv2Plugin.Operations
         public void RetrieveEntityData
             (string id, string type, Action<RequestResponse<EntityObject>> callback, string options = null)
         {
+            RestRequest request = new RestRequest(EntitiesResource + "/" + id, Method.GET);
+            request.AddParameter("type", type);
+            if (options != null)
+                request.AddParameter("options", options);
+            Client.SendRequest<EntityObject>(request, callback);
+        }
         }
 
     }
