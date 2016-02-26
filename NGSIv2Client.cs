@@ -24,7 +24,7 @@ namespace NGSIv2Plugin
     class NGSIv2Client
     {
         public bool Initialized { get; private set; }
-        public RestClient Client { get; private set; }
+        public RestClient RestClient { get; private set; }
         public EntityCollection EntityCollection { get; private set; }
 
         internal EntryPoint EntryPoints { get; set; }
@@ -32,8 +32,8 @@ namespace NGSIv2Plugin
         public NGSIv2Client(string baseUrl)
         {
             Initialized = false;
-            Client = new RestClient();
-            Client.BaseUrl = new Uri(baseUrl);
+            RestClient = new RestClient();
+            RestClient.BaseUrl = new Uri(baseUrl);
             RetrieveEntryPoints();
         }
 
@@ -41,7 +41,7 @@ namespace NGSIv2Plugin
         {
             RestRequest request = new RestRequest();
             request.Resource = "/v2";
-            var response = Client.Execute<EntryPoint>(request);
+            var response = RestClient.Execute<EntryPoint>(request);
             EntryPoints = response.Data;
             EntityCollection = new EntityCollection(Client, EntryPoints.Entities);
             Initialized = true;
