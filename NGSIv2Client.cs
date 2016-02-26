@@ -12,6 +12,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
 using NGSIv2Plugin.Messages;
+using NGSIv2Plugin.Operations;
 using RestSharp;
 using System;
 using System.Collections.Generic;
