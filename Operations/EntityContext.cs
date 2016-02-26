@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace NGSIv2Plugin.Operations
 {
-    class EntityContext
+    public class EntityContext
     {
         private NGSIv2Client Client { get; set; }
         private string EntitiesResource { get; set; }
