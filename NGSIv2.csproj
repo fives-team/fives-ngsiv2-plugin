@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Operations\EntityCollection.cs" />
-    <Compile Include="EntityCollection.cs" />
     <Compile Include="Messages\EntryPoint.cs" />
     <Compile Include="Messages\RequestResponse.cs" />
     <Compile Include="NGSIv2PluginInitializer.cs" />
