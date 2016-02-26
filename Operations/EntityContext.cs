@@ -50,6 +50,21 @@ namespace NGSIv2Plugin.Operations
                 request.AddParameter("options", options);
             Client.SendRequest<EntityObject>(request, callback);
         }
+
+        public void RetrieveEntityAttribute
+            (string id, string attribute, Action<RequestResponse<EntityObject>> callback, string options = null)
+        {
+            RestRequest request = new RestRequest(EntitiesResource + "/" + id, Method.GET);
+            request.AddParameter("attrs", attribute);
+            if (options != null)
+                request.AddParameter("options", options);
+            Client.SendRequest<EntityObject>(request, callback);
+        }
+
+        public void RetrieveEntityAttributeSet
+            (string id, ISet<string> attributes, Action<RequestResponse<EntityObject>> callback, string options = null)
+        {
+            RetrieveEntityAttribute(id, string.Join(",", attributes), callback, options);
         }
 
     }
