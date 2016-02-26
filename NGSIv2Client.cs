@@ -21,7 +21,7 @@ using System.Net;
 
 namespace NGSIv2Plugin
 {
-    class NGSIv2Client
+    public class NGSIv2Client
     {
         public bool Initialized { get; private set; }
         public RestClient RestClient { get; private set; }
