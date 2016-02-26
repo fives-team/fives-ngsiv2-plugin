@@ -32,7 +32,8 @@ namespace NGSIv2Plugin.Operations
             this.EntitiesResource = resource;
         }
 
-        public void RetrieveEntityData(string id, Action<RequestResponse<EntityObject>> callback, string options = null)
+        public void RetrieveEntityData
+            (string id, Action<RequestResponse<EntityObject>> callback, string options = null)
         {
             RestRequest request = new RestRequest(EntitiesResource + "/" + id, Method.GET);
             if (options != null)
@@ -40,7 +41,8 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest<EntityObject>(request, callback);
         }
 
-        public void RetrieveEntityData(string id, string type, Action<RequestResponse<EntityObject>> callback, string options = null)
+        public void RetrieveEntityData
+            (string id, string type, Action<RequestResponse<EntityObject>> callback, string options = null)
         {
         }
 
