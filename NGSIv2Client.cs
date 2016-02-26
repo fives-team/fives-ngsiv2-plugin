@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Web.Script.Serialization;
 
 namespace NGSIv2Plugin
 {
@@ -54,5 +55,6 @@ namespace NGSIv2Plugin
                 callback(new RequestResponse(response.StatusCode, response.Data));
             });
         }
+        JavaScriptSerializer Serializer = new JavaScriptSerializer();
     }
 }
