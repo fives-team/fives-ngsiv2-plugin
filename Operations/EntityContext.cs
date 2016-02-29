@@ -21,6 +21,10 @@ using System.Threading.Tasks;
 
 namespace NGSIv2Plugin.Operations
 {
+    /// <summary>
+    /// Implements all methods that are defined to perform in Entity context, i.e. full entity data, or partial data based on
+    /// types or attributes as documented at http://telefonicaid.github.io/fiware-orion/api/v2/cookbook/
+    /// </summary>
     public class EntityContext
     {
         private NGSIv2Client Client { get; set; }
@@ -32,6 +36,12 @@ namespace NGSIv2Plugin.Operations
             this.EntitiesResource = resource;
         }
 
+        /// <summary>
+        /// Sends an asynchronous request to receive all data about one entity based on ID
+        /// </summary>
+        /// <param name="id">Id of the entity under which it is stored in the provider</param>
+        /// <param name="callback">Function that is called as soon as the request has returned</param>
+        /// <param name="options">Optional parameters as specified in the NGSIv2 Spec</param>
         public void RetrieveEntityData
             (string id, Action<RequestResponse<EntityObject>> callback, string options = null)
         {
@@ -41,6 +51,13 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest<EntityObject>(request, callback);
         }
 
+        /// <summary>
+        /// Sends an asynchronous request to receive all data about one entity based on ID and type of the entity
+        /// </summary>
+        /// <param name="id">Id of the entity under which it is stored in the provider</param>
+        /// <param name="type">Type to specify the wanted entity further</param>
+        /// <param name="callback">Function that is called as soon as the request has returned</param>
+        /// <param name="options">Optional parameters as specified in the NGSIv2 Spec</param>
         public void RetrieveEntityData
             (string id, string type, Action<RequestResponse<EntityObject>> callback, string options = null)
         {
@@ -51,6 +68,13 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest<EntityObject>(request, callback);
         }
 
+        /// <summary>
+        /// Sends an asynchronous request to retrieve one specific attribute of an entity
+        /// </summary>
+        /// <param name="id">Id of the entity under which it is stored in the provider</param>
+        /// <param name="attribute">Name of the attribute that should be returned</param>
+        /// <param name="callback">Function that is called as soon as the request has returned</param>
+        /// <param name="options">Optional parameters as specified in the NGSIv2 Spec</param>
         public void RetrieveEntityAttribute
             (string id, string attribute, Action<RequestResponse<EntityObject>> callback, string options = null)
         {
@@ -61,6 +85,13 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest<EntityObject>(request, callback);
         }
 
+        /// <summary>
+        /// Sends an asynchronous request to retrieve a set of attribute of an entity
+        /// </summary>
+        /// <param name="id">Id of the entity under which it is stored in the provider</param>
+        /// <param name="attributes">Names of the attributes that should be returned</param>
+        /// <param name="callback">Function that is called as soon as the request has returned</param>
+        /// <param name="options">Optional parameters as specified in the NGSIv2 Spec</param>
         public void RetrieveEntityAttributeSet
             (string id, ISet<string> attributes, Action<RequestResponse<EntityObject>> callback, string options = null)
         {
