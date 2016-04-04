@@ -11,6 +11,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
+using NGSIv2Plugin.Messages;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,14 @@ namespace NGSIv2Plugin.Operations
     {
         public AttributeContext(NGSIv2Client client, string resource) : base(client, resource) { }
 
-        public void ListAllAttributes() { }
+        public void ListAllAttributes(string entityId, Action<RequestResponse<EntityObject>> callback)
+        {
+            string path = this.EntitiesResource + "/" + entityId + "/attrs";
+            RestRequest request = new RestRequest(path, Method.GET);
+            Client.SendRequest<EntityObject>(request, callback);
+        }
+
+        public void ReplaceAllAttributes(string entityId, EntityObject body, Action<RequestResponse> callback)
         public void GetAttributeWithMetadata() { }
         public void GetAttributeValueAsText() { }
         public void GetAttributeValueAsJSON() { }
