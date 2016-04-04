@@ -19,8 +19,10 @@ using System.Threading.Tasks;
 
 namespace NGSIv2Plugin.Operations
 {
-    public class AttributeContext
+    public class AttributeContext : EntityOperation
     {
+        public AttributeContext(NGSIv2Client client, string resource) : base(client, resource) { }
+
         public void ListAllAttributes() { }
         public void GetAttributeWithMetadata() { }
         public void GetAttributeValueAsText() { }
