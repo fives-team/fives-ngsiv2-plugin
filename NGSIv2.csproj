@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Messages\EntityList.cs" />
     <Compile Include="Messages\EntityObject.cs" />
+    <Compile Include="Operations\AttributeContext.cs" />
     <Compile Include="Operations\EntityCollection.cs" />
     <Compile Include="Messages\EntryPoint.cs" />
     <Compile Include="Messages\RequestResponse.cs" />
