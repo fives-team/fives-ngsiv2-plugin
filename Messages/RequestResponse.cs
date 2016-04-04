@@ -19,16 +19,27 @@ using System.Text;
 
 namespace NGSIv2Plugin.Messages
 {
-    public class RequestResponse<T>
+    public class RequestResponse<T> : RequestResponse
     {
         public T ResponseData { get; private set; }
-        public HttpStatusCode StatusCode { get; private set; }
 
-        public RequestResponse() { }
-        public RequestResponse(HttpStatusCode code, T data)
+        public RequestResponse() {}
+
+        public RequestResponse(HttpStatusCode statusCode, T data) : base(statusCode)
         {
             ResponseData = data;
-            StatusCode = code;
+        }
+    }
+
+    public class RequestResponse
+    {
+        public HttpStatusCode StatusCode { get; private set; }
+
+        public RequestResponse() {}
+
+        public RequestResponse(HttpStatusCode statusCode)
+        {
+            StatusCode = statusCode;
         }
     }
 }

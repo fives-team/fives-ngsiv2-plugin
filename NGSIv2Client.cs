@@ -48,6 +48,14 @@ namespace NGSIv2Plugin
             Initialized = true;
         }
 
+        public void SendRequest(RestRequest request, Action<RequestResponse> callback)
+        {
+            RestClient.ExecuteAsync(request, response =>
+            {
+                callback(new RequestResponse(response.StatusCode));
+            });
+        }
+
         public void SendRequest<T>(RestRequest request, Action<RequestResponse<T>> callback)
         {
             RestClient.ExecuteAsync(request, response =>
