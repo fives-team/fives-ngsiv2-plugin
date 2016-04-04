@@ -27,9 +27,6 @@ namespace NGSIv2Plugin.Operations
     /// </summary>
     public class EntityCollection : EntityOperation
     {
-        private NGSIv2Client Client { get; set; }
-        private string EntitiesResource { get; set; }
-
         /// <summary>
         /// Constructor for a new entity collection object in the context of a previously created NGSIv2 client.
         /// </summary>
