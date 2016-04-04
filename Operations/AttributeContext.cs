@@ -33,6 +33,13 @@ namespace NGSIv2Plugin.Operations
         }
 
         public void ReplaceAllAttributes(string entityId, EntityObject body, Action<RequestResponse> callback)
+        {
+            string path = EntitiesResource + "/" + entityId + "/";
+            RestRequest request = new RestRequest(path, Method.PUT);
+            request.AddBody(body);
+            Client.SendRequest(request, callback);
+        }
+
         public void GetAttributeWithMetadata() { }
         public void GetAttributeValueAsText() { }
         public void GetAttributeValueAsJSON() { }
