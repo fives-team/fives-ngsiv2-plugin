@@ -25,7 +25,7 @@ namespace NGSIv2Plugin.Operations
     /// Implements all methods that are defined to query the Collection of all Entities, a filtered, and a paginated version from the
     /// remote end as documented at http://telefonicaid.github.io/fiware-orion/api/v2/cookbook/
     /// </summary>
-    public class EntityCollection
+    public class EntityCollection : EntityOperation
     {
         private NGSIv2Client Client { get; set; }
         private string EntitiesResource { get; set; }
@@ -35,11 +35,7 @@ namespace NGSIv2Plugin.Operations
         /// </summary>
         /// <param name="client">RestClient that is used to communicate with the NGSIv2 counterpart</param>
         /// <param name="resource">Resource base URL from which the entity collection is queried</param>
-        public EntityCollection(NGSIv2Client client, string resource)
-        {
-            Client = client;
-            EntitiesResource = resource;
-        }
+        public EntityCollection(NGSIv2Client client, string resource) : base(client, resource) { }
 
         /// <summary>
         /// Performs an asynchronous query to list the complete set of entities that is provided by the data provider

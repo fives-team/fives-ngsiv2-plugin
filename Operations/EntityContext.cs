@@ -25,16 +25,9 @@ namespace NGSIv2Plugin.Operations
     /// Implements all methods that are defined to perform in Entity context, i.e. full entity data, or partial data based on
     /// types or attributes as documented at http://telefonicaid.github.io/fiware-orion/api/v2/cookbook/
     /// </summary>
-    public class EntityContext
+    public class EntityContext : EntityOperation
     {
-        private NGSIv2Client Client { get; set; }
-        private string EntitiesResource { get; set; }
-
-        public EntityContext(NGSIv2Client client, string resource)
-        {
-            this.Client = client;
-            this.EntitiesResource = resource;
-        }
+        public EntityContext(NGSIv2Client client, string resource) : base(client, resource) { }
 
         /// <summary>
         /// Sends an asynchronous request to receive all data about one entity based on ID
