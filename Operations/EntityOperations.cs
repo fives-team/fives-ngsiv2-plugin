@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace NGSIv2Plugin.Operations
 {
-    public virtual class EntityOperation
+    public class EntityOperation
     {
         protected NGSIv2Client Client { get; set; }
         protected string EntitiesResource { get; set; }
