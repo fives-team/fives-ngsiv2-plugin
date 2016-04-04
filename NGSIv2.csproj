@@ -75,7 +75,6 @@
     <Compile Include="Operations\EntityOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NGSIv2Client.cs" />
-    <Compile Include="AsyncRESTClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
