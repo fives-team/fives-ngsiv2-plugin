@@ -63,6 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Messages\AttributeObject.cs" />
+    <Compile Include="Messages\AttributeValue.cs" />
     <Compile Include="Messages\EntityList.cs" />
     <Compile Include="Messages\EntityObject.cs" />
     <Compile Include="Operations\AttributeContext.cs" />
