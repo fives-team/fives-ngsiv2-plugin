@@ -40,8 +40,14 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest(request, callback);
         }
 
-        public void GetAttributeWithMetadata() { }
-        public void GetAttributeValueAsText() { }
+        public void GetAttributeWithMetadata
+            (string entityId, string attributeName, Action<RequestResponse<AttributeObject>> callback)
+        {
+            string path = EntitiesResource + "/" + entityId + "/attrs/" + attributeName;
+            RestRequest request = new RestRequest(path, Method.GET);
+            Client.SendRequest<AttributeObject>(request, callback);
+        }
+
         public void GetAttributeValueAsJSON() { }
         public void UpdateAttribute() { }
         public void UpdateAttributeValue() { }
