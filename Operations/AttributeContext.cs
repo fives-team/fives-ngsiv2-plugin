@@ -69,7 +69,16 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest<T>(request, callback);
         }
 
-        public void UpdateAttribute() { }
+        public void UpdateAttribute
+            (string entityId, string attributeName, AttributeObject newAttribute, Action<RequestResponse> callback)
+        {
+            string path = EntitiesResource + "/" + entityId + "/attrs/" + attributeName;
+            RestRequest request = new RestRequest(path, Method.PUT);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddJsonBody(newAttribute);
+            Client.SendRequest(request, callback);
+        }
+
         public void UpdateAttributeValue() { }
         public void RemoveAttribute() { }
     }
