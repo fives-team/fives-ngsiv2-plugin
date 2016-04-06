@@ -102,6 +102,11 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest(request, callback);
         }
 
-        public void RemoveAttribute() { }
+        public void RemoveAttribute(string entityId, string attributeName, Action<RequestResponse> callback)
+        {
+            string path = EntitiesResource + "/" + entityId + "/attrs/" + attributeName;
+            RestRequest request = new RestRequest(path, Method.DELETE);
+            Client.SendRequest(request, callback);
+        }
     }
 }
