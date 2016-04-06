@@ -48,7 +48,27 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest<AttributeObject>(request, callback);
         }
 
-        public void GetAttributeValueAsJSON() { }
+        public void GetAttributeValueAsText
+            (string entityId, string attributeName, Action<RequestResponse<string>> callback)
+        {
+            GetAttributeValue<string>(entityId, attributeName, "text/plain", callback);
+        }
+
+        public void GetAttributeValueAsJSON
+            (string entityId, string attributeName, Action<RequestResponse<AttributeValue>> callback)
+        {
+            GetAttributeValue<AttributeValue>(entityId, attributeName, "application/json", callback);
+        }
+
+        private void GetAttributeValue<T>
+            (string entityId, string attributeName, string contentType, Action<RequestResponse<T>> callback)
+        {
+            string path = EntitiesResource + "/" + entityId + "/attrs/" + attributeName + "/value";
+            RestRequest request = new RestRequest(path, Method.GET);
+            request.AddHeader("Content-Type", contentType);
+            Client.SendRequest<T>(request, callback);
+        }
+
         public void UpdateAttribute() { }
         public void UpdateAttributeValue() { }
         public void RemoveAttribute() { }
