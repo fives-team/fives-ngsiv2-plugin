@@ -29,6 +29,7 @@ namespace NGSIv2Plugin
 
         public EntityCollection EntityCollection { get; private set; }
         public EntityContext EntityContext { get; private set; }
+        public EntityIngestion EntityIngestion { get; private set; }
         public AttributeContext AttributeContext { get; private set; }
 
         internal EntryPoint EntryPoints { get; set; }
@@ -49,6 +50,7 @@ namespace NGSIv2Plugin
             EntryPoints = response.Data;
             EntityCollection = new EntityCollection(this, EntryPoints.Entities);
             EntityContext = new EntityContext(this, EntryPoints.Entities);
+            EntityIngestion = new EntityIngestion(this, EntryPoints.Entities);
             AttributeContext = new AttributeContext(this, EntryPoints.Entities);
             Initialized = true;
         }
