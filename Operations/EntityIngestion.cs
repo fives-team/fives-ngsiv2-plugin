@@ -30,6 +30,10 @@ namespace NGSIv2Plugin.Operations
             RestRequest request = new RestRequest(EntitiesResource, Method.POST);
             request.AddBody(entity);
             request.AddHeader("Content-Type", "application/json");
+            if (options != null)
+            {
+                request.AddParameter("options", options);
+            }
             Client.SendRequest(request, callback);
         }
 
