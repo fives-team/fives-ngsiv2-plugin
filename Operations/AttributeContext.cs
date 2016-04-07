@@ -21,10 +21,20 @@ using System.Threading.Tasks;
 
 namespace NGSIv2Plugin.Operations
 {
+    /// <summary>
+    /// Implements all methods that are defined to perform in Attribute context, i.e. complete collection of attributes,
+    /// with meta data, or single attributes or attribute values in text or JSON format based on
+    /// types or attributes as documented at http://telefonicaid.github.io/fiware-orion/api/v2/cookbook/
+    /// </summary>
     public class AttributeContext : EntityOperation
     {
         public AttributeContext(NGSIv2Client client, string resource) : base(client, resource) { }
 
+        /// <summary>
+        /// Lists the complete collection of attributes
+        /// </summary>
+        /// <param name="entityId">Id of the entity of which the attribute list should be retrieved</param>
+        /// <param name="callback">Callback that should be invoked when the request returned</param>
         public void ListAllAttributes(string entityId, Action<RequestResponse<EntityObject>> callback)
         {
             string path = this.EntitiesResource + "/" + entityId + "/attrs";
@@ -32,6 +42,13 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest<EntityObject>(request, callback);
         }
 
+        /// <summary>
+        /// Replace the all attributes that are attached to an entity by a new set
+        /// </summary>
+        /// <param name="entityId">Id of the entity of which attributes should be replaced</param>
+        /// <param name="newAttributes">New set of attributes by which the existing ones should be replaced</param>
+        /// <param name="callback">Callback that should be invoked when the request returned</param>
+        public void ReplaceAllAttributes(string entityId, EntityObject newAttributes, Action<RequestResponse> callback)
         {
             string path = EntitiesResource + "/" + entityId + "/";
             RestRequest request = new RestRequest(path, Method.PUT);
@@ -39,6 +56,12 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest(request, callback);
         }
 
+        /// <summary>
+        /// Retrieve a single attribute of an entity along with its metadata
+        /// </summary>
+        /// <param name="entityId">Id of the entity of which the attribute should be retrieved</param>
+        /// <param name="attributeName">Name of the attribute that should be retrieved</param>
+        /// <param name="callback">Callback that should be invoked when the request returned</param>
         public void GetAttributeWithMetadata
             (string entityId, string attributeName, Action<RequestResponse<AttributeObject>> callback)
         {
@@ -47,12 +70,24 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest<AttributeObject>(request, callback);
         }
 
+        /// <summary>
+        /// Retrieves the value of an attribute in text format
+        /// </summary>
+        /// <param name="entityId">Id of the entity of which the attribute should be retrieved</param>
+        /// <param name="attributeName">Name of the attribute that should be retrieved</param>
+        /// <param name="callback">Callback that should be invoked when the request returned</param>
         public void GetAttributeValueAsText
             (string entityId, string attributeName, Action<RequestResponse<string>> callback)
         {
             GetAttributeValue<string>(entityId, attributeName, "text/plain", callback);
         }
 
+        /// <summary>
+        /// Retrieves the value of an attribute in JSON format
+        /// </summary>
+        /// <param name="entityId">Id of the entity of which the attribute should be retrieved</param>
+        /// <param name="attributeName">Name of the attribute that should be retrieved</param>
+        /// <param name="callback">Callback that should be invoked when the request returned</param>
         public void GetAttributeValueAsJSON
             (string entityId, string attributeName, Action<RequestResponse<AttributeValue>> callback)
         {
@@ -68,6 +103,13 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest<T>(request, callback);
         }
 
+        /// <summary>
+        /// Updates an attribute of an entity along with its metadata
+        /// </summary>
+        /// <param name="entityId">Id of the entity of which the attribute should be updated</param>
+        /// <param name="attributeName">Name of the attribute that should be updated</param>
+        /// <param name="newAttribute">New attribute data</param>
+        /// <param name="callback">Callback that should be invoked when the request returned</param>
         public void UpdateAttribute
             (string entityId, string attributeName, AttributeObject newAttribute, Action<RequestResponse> callback)
         {
@@ -78,12 +120,26 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest(request, callback);
         }
 
+        /// <summary>
+        /// Updates an value of an attribute in text format
+        /// </summary>
+        /// <param name="entityId">Id of the entity of which the attribute should be updated</param>
+        /// <param name="attributeName">Name of the attribute that should be updated</param>
+        /// <param name="newValue">New value of the attribute in text format</param>
+        /// <param name="callback">Callback that should be invoked when the request returned</param>
         public void UpdateAttributeValueAsText
             (string entityId, string attributeName, string newValue, Action<RequestResponse> callback)
         {
             UpdateAttributeValue(entityId, attributeName, "text/plain", newValue, callback);
         }
 
+        /// <summary>
+        /// Updates an value of an attribute in JSON format
+        /// </summary>
+        /// <param name="entityId">Id of the entity of which the attribute should be updated</param>
+        /// <param name="attributeName">Name of the attribute that should be updated</param>
+        /// <param name="newValue">New value of the attribute in text format</param>
+        /// <param name="callback">Callback that should be invoked when the request returned</param>
         public void UpdateAttributValueAsJSON
             (string entityId, string attributeName, object newValue, Action<RequestResponse> callback)
         {
@@ -101,6 +157,12 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest(request, callback);
         }
 
+        /// <summary>
+        /// Removes an attribute from an entity
+        /// </summary>
+        /// <param name="entityId">Entity from which attribute should be removed</param>
+        /// <param name="attributeName">Name of the attribute that should be removed</param>
+        /// <param name="callback">Callback that should be invoked when the request returned</param>
         public void RemoveAttribute(string entityId, string attributeName, Action<RequestResponse> callback)
         {
             string path = EntitiesResource + "/" + entityId + "/attrs/" + attributeName;
