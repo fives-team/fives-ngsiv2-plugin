@@ -68,5 +68,11 @@ namespace NGSIv2Plugin.Operations
             request.AddBody(update);
             Client.SendRequest(request, callback);
         }
+
+        public void RemoveEntity(string entityId, Action<RequestResponse> callback)
+        {
+            RestRequest request = new RestRequest(EntitiesResource + "/" + entityId, Method.DELETE);
+            Client.SendRequest(request, callback);
+        }
     }
 }
