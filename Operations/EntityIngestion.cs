@@ -41,5 +41,32 @@ namespace NGSIv2Plugin.Operations
         {
             CreateEntity(entity, callback, "keyValues");
         }
+
+        public void UpdateEntity
+            (string entityId, EntityObject update, Action<RequestResponse> callback, string options = null)
+        {
+            RestRequest request = new RestRequest(EntitiesResource + "/" + entityId, Method.PATCH);
+            request.AddHeader("Content-Type", "application/json");
+            if (options != null)
+            {
+                request.AddParameter("options", options);
+            }
+            request.AddBody(update);
+            Client.SendRequest(request, callback);
+        }
+
+        public void UpdateEntityFromKeyValues(string entityId, EntityObject update, Action<RequestResponse> callback)
+        {
+            UpdateEntity(entityId, update, callback, "keyValues");
+        }
+
+        public void UpdateOrAppendFromKeyValues(string entityId, EntityObject update, Action<RequestResponse> callback)
+        {
+            RestRequest request = new RestRequest(EntitiesResource + "/" + entityId, Method.PUT);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("options", "keyValues");
+            request.AddBody(update);
+            Client.SendRequest(request, callback);
+        }
     }
 }
