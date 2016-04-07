@@ -11,6 +11,8 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
+using NGSIv2Plugin.Messages;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +24,18 @@ namespace NGSIv2Plugin.Operations
     public class EntityIngestion : EntityOperation
     {
         public EntityIngestion(NGSIv2Client client, string resource) : base(client, resource) { }
+
+        public void CreateEntity(EntityObject entity, Action<RequestResponse> callback, string options = null)
+        {
+            RestRequest request = new RestRequest(EntitiesResource, Method.POST);
+            request.AddBody(entity);
+            request.AddHeader("Content-Type", "application/json");
+            Client.SendRequest(request, callback);
+        }
+
+        public void CreateEntityFromKeyValues(EntityObject entity, Action<RequestResponse> callback)
+        {
+            CreateEntity(entity, callback, "keyValues");
+        }
     }
 }
