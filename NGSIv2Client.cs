@@ -26,7 +26,10 @@ namespace NGSIv2Plugin
     {
         public bool Initialized { get; private set; }
         public RestClient RestClient { get; private set; }
+
         public EntityCollection EntityCollection { get; private set; }
+        public EntityContext EntityContext { get; private set; }
+        public AttributeContext AttributeContext { get; private set; }
 
         internal EntryPoint EntryPoints { get; set; }
 
@@ -45,6 +48,8 @@ namespace NGSIv2Plugin
             var response = RestClient.Execute<EntryPoint>(request);
             EntryPoints = response.Data;
             EntityCollection = new EntityCollection(this, EntryPoints.Entities);
+            EntityContext = new EntityContext(this, EntryPoints.Entities);
+            AttributeContext = new AttributeContext(this, EntryPoints.Entities);
             Initialized = true;
         }
 
