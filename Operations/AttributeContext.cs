@@ -32,11 +32,10 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest<EntityObject>(request, callback);
         }
 
-        public void ReplaceAllAttributes(string entityId, EntityObject body, Action<RequestResponse> callback)
         {
             string path = EntitiesResource + "/" + entityId + "/";
             RestRequest request = new RestRequest(path, Method.PUT);
-            request.AddBody(body);
+            request.AddBody(newAttributes);
             Client.SendRequest(request, callback);
         }
 
@@ -85,14 +84,14 @@ namespace NGSIv2Plugin.Operations
             UpdateAttributeValue(entityId, attributeName, "text/plain", newValue, callback);
         }
 
-        public void UpdateAttributValueeAsJSON
+        public void UpdateAttributValueAsJSON
             (string entityId, string attributeName, object newValue, Action<RequestResponse> callback)
         {
             AttributeValue v = new AttributeValue(newValue);
             UpdateAttributeValue(entityId, attributeName, "application/json", v, callback);
         }
 
-        public void UpdateAttributeValue
+        private void UpdateAttributeValue
             (string entityId, string attributeName, string contentType, object value, Action<RequestResponse> callback)
         {
             string path = EntitiesResource + "/" + entityId + "/attrs/" + attributeName + "/value";
