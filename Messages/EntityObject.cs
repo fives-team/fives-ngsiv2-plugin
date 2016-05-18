@@ -19,5 +19,16 @@ using System.Threading.Tasks;
 
 namespace NGSIv2Plugin.Messages
 {
-    public class EntityObject : Dictionary<string, object> {}
+    public class EntityObject : Dictionary<string, object>
+    {
+        public EntityObject() { }
+
+        public EntityObject(IDictionary<string, object> dict)
+        {
+            foreach(KeyValuePair<string, object> p in dict)
+            {
+                this.Add(p.Key, p.Value);
+            }
+        }
+    }
 }
