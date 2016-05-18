@@ -21,6 +21,12 @@ namespace NGSIv2Plugin.Messages
 {
     public class AttributeObject
     {
+        public AttributeObject()
+        {
+            // Initialize Attribute Object with default values that are allowed in protocol
+            type = "none";
+            metadata = new Dictionary<string,object>();
+        }
 
         public object value { get; set; }
         public string type { get; set; }
