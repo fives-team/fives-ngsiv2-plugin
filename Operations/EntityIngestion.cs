@@ -37,12 +37,12 @@ namespace NGSIv2Plugin.Operations
         /// <param name="options">Optional parameters according to NGSIv2 spec</param>
         public void CreateEntity(EntityObject entity, Action<RequestResponse> callback, string options = null)
         {
-            RestRequest request = new RestRequest(EntitiesResource, Method.POST);
-            request.AddBody(entity);
-            request.AddHeader("Content-Type", "application/json");
+            var url = options != null ? EntitiesResource + "?options={options}" : EntitiesResource;
+            RestRequest request = new RestRequest(url, Method.POST);
+            request.AddParameter("application/json", request.JsonSerializer.Serialize(entity), ParameterType.RequestBody);
             if (options != null)
             {
-                request.AddParameter("options", options);
+                request.AddParameter("options", options, ParameterType.UrlSegment);
             }
             Client.SendRequest(request, callback);
         }
@@ -67,13 +67,13 @@ namespace NGSIv2Plugin.Operations
         public void UpdateEntity
             (string entityId, EntityObject update, Action<RequestResponse> callback, string options = null)
         {
-            RestRequest request = new RestRequest(EntitiesResource + "/" + entityId, Method.PATCH);
-            request.AddHeader("Content-Type", "application/json");
+            var url = options != null ? EntitiesResource + "?options={options}" : EntitiesResource;
+            RestRequest request = new RestRequest(url, Method.PATCH);
+            request.AddParameter("application/json", request.JsonSerializer.Serialize(update), ParameterType.RequestBody);
             if (options != null)
             {
-                request.AddParameter("options", options);
+                request.AddParameter("options", options, ParameterType.UrlSegment);
             }
-            request.AddBody(update);
             Client.SendRequest(request, callback);
         }
 

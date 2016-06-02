@@ -11,7 +11,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
-using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +21,15 @@ namespace NGSIv2Plugin.Messages
 {
     public class AttributeObject
     {
-        [DeserializeAs(Name = "value")]
-        public object Value { get; set; }
+        public AttributeObject()
+        {
+            // Initialize Attribute Object with default values that are allowed in protocol
+            type = "none";
+            metadata = new Dictionary<string,object>();
+        }
 
-        [DeserializeAs(Name = "type")]
-        public string Type { get; set; }
-
-        [DeserializeAs(Name = "metadata")]
-        public Dictionary<string, object> Metadata { get; set; }
+        public object value { get; set; }
+        public string type { get; set; }
+        public Dictionary<string, object> metadata { get; set; }
     }
 }
