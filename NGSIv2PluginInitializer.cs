@@ -11,9 +11,11 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
+using ClientManagerPlugin;
 using FIVES;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,7 @@ namespace NGSIv2Plugin
 {
     public class NGSIv2PluginInitializer : IPluginInitializer
     {
+        #region Plugin Interface
         public List<string> ComponentDependencies
         {
             get { return new List<string>(); }
@@ -29,7 +32,8 @@ namespace NGSIv2Plugin
 
         public void Initialize()
         {
-            RESTServicePlugin.RequestDispatcher.Instance.RegisterHandler(new NGSIv2RequestHandler());
+            RegisterNGSIComponent();
+            RegisterSinfoniService();
         }
 
         public string Name
@@ -39,12 +43,35 @@ namespace NGSIv2Plugin
 
         public List<string> PluginDependencies
         {
-            get { return new List<string> { "RESTService" }; }
+            get { return new List<string> { "ClientManager" }; }
         }
 
         public void Shutdown()
         {
 
+        }
+        #endregion
+
+        private void RegisterNGSIComponent()
+        {
+            ComponentDefinition ngsi = new ComponentDefinition("ngsi");
+            ngsi.AddAttribute<string>("id");
+            ngsi.AddAttribute<string>("type");
+            ComponentRegistry.Instance.Register(ngsi);
+        }
+
+        private void RegisterSinfoniService()
+        {
+            string idlContents = File.ReadAllText("ngsi.sinfoni");
+            SINFONIPlugin.SINFONIServerManager.Instance.SinfoniServer.AmendIDL(idlContents);
+            ClientManager.Instance.RegisterClientService("ngsi", true, new Dictionary<string, Delegate>{
+                {"createEntity", (Action<Dictionary<string, object>>)NGSIv2Processor.Instance.CreateEntity},
+                {"deleteEntity", (Action<string, bool>)NGSIv2Processor.Instance.DeleteEntity},
+                {"updateOrAppend",
+                    (Action<string,string,Dictionary<string,object>>)NGSIv2Processor.Instance.UpdateOrAppend},
+                {"retrieveEntityData", (Action<string>)NGSIv2Processor.Instance.RetrieveEntityData},
+                {"listEntities", (Action)NGSIv2Processor.Instance.RetrieveEntityCollection}
+            });
         }
     }
 }

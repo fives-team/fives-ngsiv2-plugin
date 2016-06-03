@@ -52,6 +52,9 @@
       <HintPath>..\..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SINFONI">
+      <HintPath>..\..\ThirdParty\SINFONI\SINFONI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
@@ -67,6 +70,7 @@
     <Compile Include="Messages\AttributeValue.cs" />
     <Compile Include="Messages\EntityList.cs" />
     <Compile Include="Messages\EntityObject.cs" />
+    <Compile Include="NGSIv2Processor.cs" />
     <Compile Include="Operations\AttributeContext.cs" />
     <Compile Include="Operations\EntityCollection.cs" />
     <Compile Include="Messages\EntryPoint.cs" />
@@ -82,13 +86,25 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ngsi.sinfoni">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="NGSIv2.licenseheader" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ClientManager\ClientManager.csproj">
+      <Project>{e1955ff2-6109-4c71-9f13-486a48de6c17}</Project>
+      <Name>ClientManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SINFONI\SINFONIPlugin.csproj">
+      <Project>{d5b8e5d2-a427-4985-b885-9eac5bddab06}</Project>
+      <Name>SINFONIPlugin</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
