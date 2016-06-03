@@ -32,7 +32,8 @@ namespace NGSIv2Plugin
 
         public void Initialize()
         {
-            RESTServicePlugin.RequestDispatcher.Instance.RegisterHandler(new NGSIv2RequestHandler());
+            RegisterNGSIComponent();
+            RegisterSinfoniService();
         }
 
         public string Name
