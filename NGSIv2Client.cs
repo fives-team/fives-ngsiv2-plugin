@@ -67,8 +67,8 @@ namespace NGSIv2Plugin
         {
             RestClient.ExecuteAsync(request, response =>
             {
-               var data = Serializer.Deserialize(response.Content, typeof(T));
-               callback(new RequestResponse<T>(response.StatusCode, (T)data));
+                var data = Serializer.Deserialize(response.Content, typeof(T));
+                callback(new RequestResponse<T>(response.StatusCode, (T)data));
             });
         }
         JavaScriptSerializer Serializer = new JavaScriptSerializer();
