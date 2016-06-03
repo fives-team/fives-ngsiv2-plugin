@@ -39,6 +39,15 @@ namespace NGSIv2Plugin
             }
         }
 
+        public void CreateEntity(Dictionary<string, object> newEntity)
+        {
+            EntityObject e = new EntityObject(newEntity);
+            ngsiClient.EntityIngestion.CreateEntity(e, r =>
+            {
+
+            });
+        }
+
         public void RetrieveEntityCollection()
         {
             ngsiClient.EntityCollection.ListAllEntities(r =>
@@ -85,6 +94,64 @@ namespace NGSIv2Plugin
                     }
                 }
             }
+        }
+
+        public void RetrieveEntityData(string entityId)
+        {
+            ngsiClient.EntityContext.RetrieveEntityData(entityId, r =>
+            {
+                Entity fivesEntity = GetFivesEntity(r.ResponseData);
+                ApplyNgsiAttributes(fivesEntity, r.ResponseData);
+            });
+        }
+
+        public void UpdateOrAppend(string id, string attributeName, Dictionary<string, object> attributeUpdate)
+        {
+            Entity fivesEntity = new Entity();
+            bool entityExists = true;
+            try
+            {
+                fivesEntity = World.Instance.First(entity => entity.ContainsComponent("ngsi") && entity["ngsi"]["id"].Value.Equals(id));
+            }
+            catch
+            {
+                entityExists = false;
+            }
+            if (entityExists)
+            {
+                var entityComponent = fivesEntity[attributeName];
+                var attributeValue = attributeUpdate["value"];
+                foreach (KeyValuePair<string, object> attr in (Dictionary<string, object>)attributeValue)
+                {
+                    entityComponent[attr.Key].Suggest(attr.Value);
+                }
+            }
+
+            AttributeObject update = new AttributeObject();
+            update.value = attributeUpdate["value"];
+            ngsiClient.AttributeContext.UpdateAttribute(id, attributeName, update, r => { });
+        }
+
+        public void DeleteEntity(string entityId)
+        {
+            Entity fivesEntity = new Entity();
+            bool entityExists = true;
+            try
+            {
+                fivesEntity = World.Instance.First(entity => entity.ContainsComponent("ngsi") && entity["ngsi"]["id"].Value.Equals(entityId));
+            }
+            catch
+            {
+                entityExists = false;
+            }
+            if (entityExists)
+            {
+                World.Instance.Remove(fivesEntity);
+            }
+            ngsiClient.EntityIngestion.RemoveEntity(entityId, r =>
+            {
+
+            });
         }
     }
 }
