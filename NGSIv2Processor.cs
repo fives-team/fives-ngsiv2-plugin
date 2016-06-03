@@ -11,12 +11,10 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
-using ClientManagerPlugin;
 using FIVES;
 using NGSIv2Plugin.Messages;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,17 +25,7 @@ namespace NGSIv2Plugin
     {
         private NGSIv2Client ngsiClient;
 
-        private void RegisterSinfoniService()
         {
-            string idlContents = File.ReadAllText("ngsi.sinfoni");
-            SINFONIPlugin.SINFONIServerManager.Instance.SinfoniServer.AmendIDL(idlContents);
-            ClientManager.Instance.RegisterClientService("ngsi", true, new Dictionary<string, Delegate>{
-                {"createEntity", (Action<Dictionary<string, object>>)CreateEntity},
-                {"deleteEntity", (Action<string>)DeleteEntity},
-                {"updateOrAppend", (Action<string,string,Dictionary<string,object>>)UpdateOrAppend},
-                {"retrieveEntityData", (Action<string>)RetrieveEntityData},
-                {"listEntities", (Action)ListAllEntities}
-            });
         }
 
         private void RetrieveEntityCollection()
