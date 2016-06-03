@@ -25,10 +25,21 @@ namespace NGSIv2Plugin
     {
         private NGSIv2Client ngsiClient;
 
+        private static NGSIv2Processor instance;
+
+        public static NGSIv2Processor Instance
         {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new NGSIv2Processor();
+                }
+                return instance;
+            }
         }
 
-        private void RetrieveEntityCollection()
+        public void RetrieveEntityCollection()
         {
             ngsiClient.EntityCollection.ListAllEntities(r =>
             {
