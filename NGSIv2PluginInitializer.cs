@@ -43,7 +43,7 @@ namespace NGSIv2Plugin
 
         public List<string> PluginDependencies
         {
-            get { return new List<string> { "RESTService" }; }
+            get { return new List<string> { "ClientManager" }; }
         }
 
         public void Shutdown()
