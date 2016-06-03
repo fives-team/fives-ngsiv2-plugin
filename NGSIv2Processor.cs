@@ -71,41 +71,6 @@ namespace NGSIv2Plugin
             });
         }
 
-        private Entity GetFivesEntity(EntityObject ngsiEntity)
-        {
-            Entity fivesEntity = new Entity();
-            try
-            {
-                fivesEntity = World.Instance.First(entity
-                    => entity.ContainsComponent("ngsi") && entity["ngsi"]["id"].Value.Equals(ngsiEntity["id"]));
-            }
-            catch (InvalidOperationException)
-            {
-                fivesEntity["ngsi"]["id"].Suggest(ngsiEntity["id"]);
-                fivesEntity["ngsi"]["type"].Suggest(ngsiEntity["type"]);
-                World.Instance.Add(fivesEntity);
-            }
-
-            return fivesEntity;
-        }
-
-        private void ApplyNgsiAttributes(Entity fivesEntity, EntityObject ngsiEntity)
-        {
-            foreach (KeyValuePair<string, object> val in ngsiEntity)
-            {
-                if (val.Key != "id" && val.Key != "type")
-                {
-                    var entityComponent = fivesEntity[val.Key];
-                    var attributeValue = ((Dictionary<string, object>)val.Value)["value"];
-
-                    foreach (KeyValuePair<string, object> attr in (Dictionary<string, object>)attributeValue)
-                    {
-                        entityComponent[attr.Key].Suggest(attr.Value);
-                    }
-                }
-            }
-        }
-
         public void RetrieveEntityData(string entityId)
         {
             ngsiClient.EntityContext.RetrieveEntityData(entityId, r =>
@@ -163,5 +128,41 @@ namespace NGSIv2Plugin
 
             });
         }
+
+        private Entity GetFivesEntity(EntityObject ngsiEntity)
+        {
+            Entity fivesEntity = new Entity();
+            try
+            {
+                fivesEntity = World.Instance.First(entity
+                    => entity.ContainsComponent("ngsi") && entity["ngsi"]["id"].Value.Equals(ngsiEntity["id"]));
+            }
+            catch (InvalidOperationException)
+            {
+                fivesEntity["ngsi"]["id"].Suggest(ngsiEntity["id"]);
+                fivesEntity["ngsi"]["type"].Suggest(ngsiEntity["type"]);
+                World.Instance.Add(fivesEntity);
+            }
+
+            return fivesEntity;
+        }
+
+        private void ApplyNgsiAttributes(Entity fivesEntity, EntityObject ngsiEntity)
+        {
+            foreach (KeyValuePair<string, object> val in ngsiEntity)
+            {
+                if (val.Key != "id" && val.Key != "type")
+                {
+                    var entityComponent = fivesEntity[val.Key];
+                    var attributeValue = ((Dictionary<string, object>)val.Value)["value"];
+
+                    foreach (KeyValuePair<string, object> attr in (Dictionary<string, object>)attributeValue)
+                    {
+                        entityComponent[attr.Key].Suggest(attr.Value);
+                    }
+                }
+            }
+        }
+
     }
 }
