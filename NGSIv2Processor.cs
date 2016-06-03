@@ -22,12 +22,20 @@ using System.Xml;
 
 namespace NGSIv2Plugin
 {
+    /// <summary>
+    /// Works as a processing unit between the NGSIv2 Client that retrieves NGSIv2 formatted raw data from the NGSIv2
+    /// endpoint, and the FiVES runtime data model. Allows to retrieve entities annd their data from the endpoint and
+    /// apply it to the FiVES runtime data
+    /// </summary>
     public class NGSIv2Processor
     {
         private NGSIv2Client ngsiClient;
 
         private static NGSIv2Processor instance;
 
+        /// <summary>
+        /// Singleton Instance object of the Processor that exposes Entity operation methods to the outside
+        /// </summary>
         public static NGSIv2Processor Instance
         {
             get
@@ -49,6 +57,10 @@ namespace NGSIv2Plugin
             ngsiClient = new NGSIv2Client(ngsiHost);
         }
 
+        /// <summary>
+        /// Creates a new entity within the NGSIv2 endpoint. This object must be compliant to the NGSIv2 specification
+        /// </summary>
+        /// <param name="newEntity">Entity in NGSIv2 format that should be created in NGSIv2 endpoint</param>
         public void CreateEntity(Dictionary<string, object> newEntity)
         {
             EntityObject e = new EntityObject(newEntity);
@@ -58,6 +70,10 @@ namespace NGSIv2Plugin
             });
         }
 
+        /// <summary>
+        /// Retrieves all entities from the NGSIv2 endpoint and copies them to the FiVES runtime data, creating respective
+        /// objects locally, or applying updated data to those entities which were already created before
+        /// </summary>
         public void RetrieveEntityCollection()
         {
             ngsiClient.EntityCollection.ListAllEntities(r =>
@@ -71,6 +87,10 @@ namespace NGSIv2Plugin
             });
         }
 
+        /// <summary>
+        /// Retrieves the data for one entity from the NGSIv2 endpoint
+        /// </summary>
+        /// <param name="entityId">ID of the entity under which it is stored in the NGSIv2 endpoint</param>
         public void RetrieveEntityData(string entityId)
         {
             ngsiClient.EntityContext.RetrieveEntityData(entityId, r =>
@@ -80,6 +100,12 @@ namespace NGSIv2Plugin
             });
         }
 
+        /// <summary>
+        /// Updates an attribute value, or appends a new attribute, in an NGSIv2 entity
+        /// </summary>
+        /// <param name="id">ID of the entity in the NGSIv2 endpoint</param>
+        /// <param name="attributeName">Name of the attribute that should be updated</param>
+        /// <param name="attributeUpdate">New attribute object according to NGSIv2 spec</param>
         public void UpdateOrAppend(string id, string attributeName, Dictionary<string, object> attributeUpdate)
         {
             Entity fivesEntity = new Entity();
@@ -107,19 +133,25 @@ namespace NGSIv2Plugin
             ngsiClient.AttributeContext.UpdateAttribute(id, attributeName, update, r => { });
         }
 
+        /// <summary>
+        /// Deletes an entity from the NGSIv2 endpoint
+        /// </summary>
+        /// <param name="entityId">Id under which the entity is stored in the NGSIv2 endpoint</param>
+        /// <param param name="deleteLocal">Specifies whether the local entity should be deleted from FiVES</param>
         public void DeleteEntity(string entityId, bool deleteLocal)
         {
             Entity fivesEntity = new Entity();
             bool entityExists = true;
             try
             {
-                fivesEntity = World.Instance.First(entity => entity.ContainsComponent("ngsi") && entity["ngsi"]["id"].Value.Equals(entityId));
+                fivesEntity = World.Instance.First
+                    (entity => entity.ContainsComponent("ngsi") && entity["ngsi"]["id"].Value.Equals(entityId));
             }
             catch
             {
                 entityExists = false;
             }
-            if (entityExists)
+            if (entityExists && deleteLocal)
             {
                 World.Instance.Remove(fivesEntity);
             }
