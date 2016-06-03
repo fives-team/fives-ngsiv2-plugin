@@ -67,6 +67,7 @@
     <Compile Include="Messages\AttributeValue.cs" />
     <Compile Include="Messages\EntityList.cs" />
     <Compile Include="Messages\EntityObject.cs" />
+    <Compile Include="NGSIv2Processor.cs" />
     <Compile Include="Operations\AttributeContext.cs" />
     <Compile Include="Operations\EntityCollection.cs" />
     <Compile Include="Messages\EntryPoint.cs" />
