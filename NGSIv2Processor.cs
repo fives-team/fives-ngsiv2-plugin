@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace NGSIv2Plugin
 {
@@ -37,6 +38,15 @@ namespace NGSIv2Plugin
                 }
                 return instance;
             }
+        }
+
+        private NGSIv2Processor()
+        {
+            XmlDocument configXml = new XmlDocument();
+            configXml.Load(this.GetType().Assembly.Location + ".config");
+            XmlNode ngsiNode = configXml.SelectSingleNode("configuration/ngsi-endpoint");
+            string ngsiHost = ngsiNode.Attributes["host"].Value + ":" + ngsiNode.Attributes["port"].Value;
+            ngsiClient = new NGSIv2Client(ngsiHost);
         }
 
         public void CreateEntity(Dictionary<string, object> newEntity)
