@@ -107,7 +107,7 @@ namespace NGSIv2Plugin
             ngsiClient.AttributeContext.UpdateAttribute(id, attributeName, update, r => { });
         }
 
-        public void DeleteEntity(string entityId)
+        public void DeleteEntity(string entityId, bool deleteLocal)
         {
             Entity fivesEntity = new Entity();
             bool entityExists = true;

@@ -66,7 +66,7 @@ namespace NGSIv2Plugin
             SINFONIPlugin.SINFONIServerManager.Instance.SinfoniServer.AmendIDL(idlContents);
             ClientManager.Instance.RegisterClientService("ngsi", true, new Dictionary<string, Delegate>{
                 {"createEntity", (Action<Dictionary<string, object>>)NGSIv2Processor.Instance.CreateEntity},
-                {"deleteEntity", (Action<string>)NGSIv2Processor.Instance.DeleteEntity},
+                {"deleteEntity", (Action<string, bool>)NGSIv2Processor.Instance.DeleteEntity},
                 {"updateOrAppend",
                     (Action<string,string,Dictionary<string,object>>)NGSIv2Processor.Instance.UpdateOrAppend},
                 {"retrieveEntityData", (Action<string>)NGSIv2Processor.Instance.RetrieveEntityData},
