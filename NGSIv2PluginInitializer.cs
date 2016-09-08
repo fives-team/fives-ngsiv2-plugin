@@ -11,7 +11,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with FiVES.  If not, see <http://www.gnu.org/licenses/>.
-using ClientManagerPlugin;
 using FIVES;
 using System;
 using System.Collections.Generic;
