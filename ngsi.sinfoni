@@ -1,0 +1,7 @@
+﻿service ngsi {
+	void createEntity(map<string, any> newEntity);
+	void deleteEntity(string entityId, boolean deleteLocal);
+	void listEntities();
+	void retrieveEntityData(string entityId);
+	void updateOrAppend(string id, string attributeName, map<string,any> entityUpdate);
+}

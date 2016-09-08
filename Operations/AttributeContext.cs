@@ -157,6 +157,29 @@ namespace NGSIv2Plugin.Operations
             Client.SendRequest(request, callback);
         }
 
+        public void UpdateOrAppendAttributes(string entityId, EntityObject update, Action<RequestResponse> callback, string type = null, string options = null)
+        {
+            string path = BuildUpdatePath(entityId, type, options);
+            RestRequest request = new RestRequest(path, Method.POST);
+            request.AddParameter("application/json", request.JsonSerializer.Serialize(update), ParameterType.RequestBody);
+            Client.SendRequest(request, callback);
+        }
+
+        private string BuildUpdatePath(string entityId, string type, string options)
+        {
+            string path = EntitiesResource + "/" + entityId + "/attrs";
+            if (type != null)
+            {
+                path = path + "?type=" + type;
+            }
+            if (options != null)
+            {
+                path = path +
+                    type == null ? "?" : "&";
+                path = path + "options=" + options;
+            }
+            return path;
+        }
         /// <summary>
         /// Removes an attribute from an entity
         /// </summary>
