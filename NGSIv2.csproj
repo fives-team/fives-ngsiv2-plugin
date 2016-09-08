@@ -35,6 +35,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClientManager">
+      <HintPath>lib\ClientManager.dll</HintPath>
+    </Reference>
     <Reference Include="DomainModel">
       <HintPath>lib\DomainModel.dll</HintPath>
     </Reference>
@@ -52,8 +55,12 @@
       <HintPath>packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SINFONI">
-      <HintPath>..\..\ThirdParty\SINFONI\SINFONI.dll</HintPath>
+    <Reference Include="SINFONI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\SINFONI.dll</HintPath>
+    </Reference>
+    <Reference Include="SINFONIPlugin">
+      <HintPath>lib\SINFONIPlugin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -86,6 +93,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ngsi.sinfoni">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="NGSIv2.licenseheader" />
     <None Include="packages.config" />
   </ItemGroup>
