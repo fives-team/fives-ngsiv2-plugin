@@ -35,6 +35,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClientManager">
+      <HintPath>lib\ClientManager.dll</HintPath>
+    </Reference>
     <Reference Include="DomainModel">
       <HintPath>lib\DomainModel.dll</HintPath>
     </Reference>
@@ -54,6 +57,9 @@
     </Reference>
     <Reference Include="SINFONI">
       <HintPath>..\..\ThirdParty\SINFONI\SINFONI.dll</HintPath>
+    </Reference>
+    <Reference Include="SINFONIPlugin">
+      <HintPath>lib\SINFONIPlugin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
