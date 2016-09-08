@@ -86,6 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ngsi.sinfoni">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="NGSIv2.licenseheader" />
     <None Include="packages.config" />
   </ItemGroup>
