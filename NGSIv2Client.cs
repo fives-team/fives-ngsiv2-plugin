@@ -39,7 +39,15 @@ namespace NGSIv2Plugin
             Initialized = false;
             RestClient = new RestClient();
             RestClient.BaseUrl = new Uri(baseUrl);
-            RetrieveEntryPoints();
+            try
+            {
+                RetrieveEntryPoints();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Could not retrieve entry points for endpoint {0}. The reported error was: {1}. Please check if the remote end is "
+                    + "running and connected to the network", baseUrl, e);
+            }
         }
 
         private void RetrieveEntryPoints()
